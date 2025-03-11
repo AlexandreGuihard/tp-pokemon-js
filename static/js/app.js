@@ -10,7 +10,7 @@ import Utils from './services/utils.js';
 const routes = {
     '/' : Home,
     "/personnages" : Personnages,
-    //"/personnages/:id" : PersonnageDetail
+    "/personnages/:id" : PersonnageDetail,
     "/favorites" : Favorites
 }
 
@@ -21,6 +21,7 @@ const router = async () => {
     let parsedURL = (request.resource ? '/' + request.resource : '/') + (request.id ? '/:id' : '') + (request.verb ? '/' + request.verb : '')
     let page = routes[parsedURL] ? new routes[parsedURL] : Error404
     content.innerHTML = await page.render();
+    
 }
 
 window.addEventListener('hashchange', router);
