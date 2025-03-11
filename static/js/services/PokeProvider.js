@@ -11,11 +11,29 @@ export default class PokeProvider{
                 const jsonData = JSON.parse(data);
                 return jsonData;
             } catch {
-                console.error('Invalid JSON response:', data);
-                throw new Error('Invalid JSON response');
+                console.error('Reponse JSON invalide:', data);
+                throw new Error('Reponse JSON invalide');
             }
         } catch (error) {
             console.error('Erreur fetchCharacters', error);
+            throw error;
+        }
+    }
+
+    static fetchCharacterById = async (id) => {
+        try {
+            const rep = await fetch(`${ENDPOINT}/${id}`)
+            if(!rep.ok) throw new Error("Erreur fetchCharacterById")
+            const data = await rep.text();
+            try {
+                const jsonData = JSON.parse(data);
+                return jsonData;
+            } catch {
+                console.error("Reponse JSON invalide", data);
+                throw new Error("Reponse JSON invalide");
+            }
+        } catch (error) {
+            console.error('Erreur fetchCharacterById', error);
             throw error;
         }
     }

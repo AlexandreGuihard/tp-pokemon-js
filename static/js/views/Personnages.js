@@ -12,6 +12,7 @@ export default class Personnages {
             .map((character) => `
           <li class="pokemon-item">
             <p id="pokeId">${character.id}<p>
+            <a href="#/personnages/${character.id}">
             <img src="${character.image.thumbnail}" alt="Image de ${character.name.french}">
             <div id='pokeName'>
               <h2>${character.name.french}</h2>
