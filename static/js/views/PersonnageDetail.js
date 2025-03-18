@@ -1,5 +1,6 @@
 import PokeProvider from "../services/PokeProvider.js";
 import Utils from "../services/utils.js";
+import { PokemonFavoris } from "../services/favoris.js";
 
 export default class PersonnageDetail {
   async render() {
@@ -15,7 +16,9 @@ export default class PersonnageDetail {
                 <p id="id">#${character.id}<p>
             </div>
 
-            <img src="${character.image.hires}" alt="Image de ${character.name.french}">
+            <img src="${character.image.hires}" alt="Image de ${
+      character.name.french
+    }">
             <ul>
                 ${character.type
                   .map((typ) => `<li><p id="type">${typ}<p></li>`)
@@ -35,7 +38,10 @@ export default class PersonnageDetail {
                 <div id="capacite">
                     <ul>
                     ${character.profile.ability
-                      .map((capacite) => `<li><p id="capacite">${capacite[0]}<p></li>`)
+                      .map(
+                        (capacite) =>
+                          `<li><p id="capacite">${capacite[0]}<p></li>`
+                      )
                       .join("")}
                 </ul>
                     <p>Capacité</p>
@@ -65,11 +71,36 @@ export default class PersonnageDetail {
                 <p>${character.base.Speed}</p>
             </section>
             <section class="allbtn">
-            
+                <button type="button" id="add" class="star-button">Ajouter en favoris</button>
             </section>
         </section>
     `;
 
     return view;
   }
+
+async afterRender() {
+    let request = Utils.parseRequestURL();
+    let character = await PokeProvider.fetchCharacterById(request.id);
+    let listePokemons = PokemonFavoris.fetchFavoris();
+
+    const buttonFavoris = document.querySelector(".star-button");
+
+    if (listePokemons.some(pokemon => pokemon.id === character.id)) {
+            buttonFavoris.id = "delete";
+            buttonFavoris.textContent = "Supprimer des Favoris";
+    }
+
+    buttonFavoris.addEventListener("click", async () => {
+            if (buttonFavoris.id === "add") {
+                PokemonFavoris.addFavoris(character);
+                buttonFavoris.id = "delete";
+                buttonFavoris.textContent = "Supprimer des Favoris";
+            } else if (buttonFavoris.id === "delete") {
+                PokemonFavoris.removeFavoris(character);
+                buttonFavoris.id = "add";
+                buttonFavoris.textContent = "Ajouter en favoris";
+            }
+    });
+}
 }
