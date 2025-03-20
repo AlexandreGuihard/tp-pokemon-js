@@ -5,7 +5,7 @@ export default class Personnages {
     let characters = await PokeProvider.fetchCharacters();
     console.log(characters);
     let view = `
-      <main>
+      <section class="section">
         <h1>Pokedex</h1>
         <ul class="personnage">
           ${characters
@@ -22,7 +22,7 @@ export default class Personnages {
             )
             .join("")}
         </ul>
-      </main>
+      </section>
       `;
     return view;
   }

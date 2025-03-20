@@ -4,12 +4,17 @@ import PersonnageDetail from "./views/PersonnageDetail.js";
 import Favorites from "./views/Favorites.js";
 import Error404 from "./views/Error404.js";
 import Utils from "./services/utils.js";
+import TeamView from "./views/TeamView.js";
+import TeamViewDetail from "./views/TeamViewDetail.js";
+
 
 const routes = {
   "/": Home,
   "/personnages": Personnages,
   "/personnages/:id": PersonnageDetail,
   "/favorites": Favorites,
+  "/teams": TeamView,
+  "/teams/:id": TeamViewDetail,
 };
 
 const router = async () => {

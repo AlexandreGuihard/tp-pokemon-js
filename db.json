@@ -49235,5 +49235,8 @@
       "ineffective": ["Fire", "Poison", "Steel"],
       "no_effect": []
     }
+  ],
+  "notation" : [
+    
   ]
 }

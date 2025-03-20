@@ -37,4 +37,24 @@ export default class PokeProvider{
             throw error;
         }
     }
+
+    static updateCharacter = async (character, id) =>{
+        const options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(character)
+        };
+        try {
+            const response = await fetch(`${ENDPOINT}/${id}`, options)
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const json = await response.json();
+            return json
+        } catch (err) {
+            console.log('Error updating character level', err)
+        }
+    }
 }

@@ -20,26 +20,31 @@
     padding: 0;
     background-color : red
   }
-nav {
-  background-color: red;
-  padding: 30px;
-}
-
-nav ul {
-  list-style-type: none;
-  display: flex;
-  justify-content: center;
-}
-
-nav li {
-  margin: 0 10px;
-}
-
-nav a {
-  color: #fff;
-  text-decoration: none;
-  margin: 10vw;
-}
+  
+  nav {
+    background-color: red;
+    padding: 20px; /* Ajustez la valeur si nécessaire */
+    display: flex;
+    justify-content: center;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+  }
+  
+  nav li {
+    margin: 0 10px;
+  }
+  
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px; /* Ajustement de l'espacement */
+  }
 
 a{
   color: #007bff;
@@ -76,7 +81,53 @@ button:focus-visible {
 
 
 #content {
-  background-color: white;
   margin: 20px;
   border-radius: 10px;
 }
+
+#content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  width: 90vw;
+}
+
+#content > div {
+  text-align: center;
+  position: relative; 
+  padding: 10px;
+}
+
+#content > div:not(:last-child)::after {
+  content: ""; 
+  position: absolute;
+  top: 0;
+  right: -100px; 
+  height: 80%; 
+  width: 1.5px; 
+  background-color: #ccc; 
+  transform: translateY(20%);
+}
+
+#poidsHead, #tailleHead{
+  display: flex;
+  gap : 10px;
+}
+
+
+
+section {
+  display: flex;
+  flex-direction: column; /* Aligne les éléments verticalement */
+  align-items: center; /* Centre horizontalement */
+  justify-content: center; /* Centre verticalement */
+  text-align: center; /* Centre le texte dans chaque élément */
+  gap: 10px; /* Ajoute un espace entre les éléments */
+  width: 80%;
+}
+
+section h3, section h4, section p {
+  margin: 10px 0; /* Ajoute un espace entre les éléments */
+}
+
