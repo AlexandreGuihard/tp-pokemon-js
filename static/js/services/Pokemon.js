@@ -9,7 +9,7 @@ export default class Pokemon {
       this.evolution = data.evolution;
       this.profile = data.profile;
       this.image = data.image;
-      this.level = 1; 
+      this.level = data.level || 1; 
       this.heldItem = null; 
     }
   
@@ -53,7 +53,6 @@ export default class Pokemon {
         return false;
       }
   
-      console.log(`Condition remplie : ${evolution.condition}`);
       alert("Votre Pokémon va évoluer !");
       const res = confirm("Voulez-vous continuer ?");
   
@@ -78,6 +77,5 @@ export default class Pokemon {
       console.log(`${this.name.french} a évolué en ${evolvedPokemon.name.french} !`);
       Object.assign(this, evolvedPokemon); 
       this.heldItem = null; 
-      console.log(`${this.name.french} est maintenant niveau ${this.level}.`);
     }
   }

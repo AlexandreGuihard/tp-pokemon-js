@@ -7,10 +7,6 @@ export class PokemonFavoris {
     
     static addFavoris(pokemon) {
         let favorites = PokemonFavoris.fetchFavoris();
-        if (favorites.length >= 6) {
-            alert("Les favoris sont déjà pleins. Supprimer un pokemon des favoris pour en ajouter");
-            return;
-        }
         for(let i = 0; i < favorites.length; i++) {
             if (favorites[i].id === pokemon.id) {
                 alert("Ce pokemon est déjà dans les favoris");

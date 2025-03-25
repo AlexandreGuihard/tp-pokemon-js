@@ -91,20 +91,20 @@ export default class PersonnageDetail {
                 <p id="speed">${character.base.Speed}</p>
             </section>
             <button type="button" id="addPokemon">Ajouter un Pokemon</button>
-            
-        </section>
-        <div id="addPokemonModal" class="modal">
+             <div id="addPokemonModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2>Ajouter un Pokemon</h2>
+                <h2>Ajouter un Pokémon</h2>
                 <section class="allbtn">
                     <button type="button" id="addFavoris" class="buttonFavoris">Ajouter en favoris</button>
                 </section>
                 <section class="allbtn">
                     <button type="button" id="addTeam" class="buttonTeam">Ajouter dans l'équipe</button>
-                </section>              
+                </section>
             </div>
         </div>
+        </section>
+       
     `;
 
     return view;

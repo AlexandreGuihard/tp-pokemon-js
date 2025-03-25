@@ -49,4 +49,23 @@ export default class PokemonTeam {
     }
     return null;
   }
+
+  static fetchPokemonbyIndex(position){
+    console.log("POSITION "+position);
+    let teams = PokemonTeam.fetchTeam();
+    return teams[position];
+  }
+
+  static updateTeamByIndex(pokemon, index) {
+    let teams = PokemonTeam.fetchTeam();
+
+    if (index >= 0 && index < teams.length) {
+        teams[index] = pokemon; // Mettre à jour le Pokémon à l'index donné
+        localStorage.setItem("team", JSON.stringify(teams));
+        console.log(`Pokémon à l'index ${index} mis à jour :`, pokemon);
+    } else {
+        console.error("Index invalide :", index);
+    }
+}
+ 
 }
