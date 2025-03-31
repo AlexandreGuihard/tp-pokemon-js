@@ -1,4 +1,3 @@
-import {ENDPOINT4} from "../config.js"
 
 export class PokemonFavoris {
 
@@ -27,5 +26,27 @@ export class PokemonFavoris {
             }
         }
         return localStorage.setItem('favoris', JSON.stringify(favorites));
+    }
+
+    static isFavorite(id){
+
+        let favorites = PokemonFavoris.fetchFavoris();
+        for (let i = 0; i < favorites.length; i++) {
+            if (favorites[i].id === id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static updateFavoris(pokemon, id){
+
+        let favorites = PokemonFavoris.fetchFavoris();
+        for (let i = 0; i < favorites.length; i++) {
+            if (favorites[i].id === id) {
+                favorites[i] = pokemon;
+            }
+        }
+        localStorage.setItem('favoris', JSON.stringify(favorites));
     }
 }
