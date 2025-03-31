@@ -2,13 +2,14 @@ const Utils = {
   parseRequestURL: () => {
     let url = location.hash.slice(1).toLowerCase() || "/";
     let r = url.split("/");
+    console.log("[Router] Parsed URL:", r);
 
     let request = {
-      resource: r[1] || null, // Extrait la ressource (par exemple, "items")
-      type: r[2] || null,     // Extrait le type (par exemple, "healing")
-      id: r[3] || null,       // Extrait l'id (par exemple, "50")
-      index: r[4] ? parseInt(r[4], 10) : null, // Extrait l'index si présent
-      verb: r[5] || null      // Extrait un éventuel verbe (par exemple, "edit")
+      resource: r[1] || null, 
+      type: r[1] === "items" ? r[2] || null : null, 
+      id: r[1] === "personnages" || r[1] === "teams" ? r[2] || null : null,
+      index: r[3] ? parseInt(r[3], 10) : null, 
+      verb: r[4] || null 
     };
 
     return request;
@@ -18,9 +19,13 @@ const Utils = {
     return new Promise((resolve) => setTimeout(resolve, ms));
   },
 
-  replaceURL: (url) => {
-    document.location.replace(url);
-  }
+  replacehref: (url) => {
+    location.replace(url);
+  },
+
+  hashchange: (url) => {
+    location.hash = url;
+  },
 };
 
 export default Utils;

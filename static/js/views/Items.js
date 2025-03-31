@@ -4,8 +4,6 @@ export default class ItemsView {
     async render() {
        
         let groupedItems = await ItemsProvider.fetchItemsGroupedByType();
-        console.log(groupedItems);
-
         let view = `
             <section class="section">
                 <h1>Items</h1>

@@ -13,12 +13,6 @@ export default class PokemonTeam {
         alert("L'équipe est déjà pleine. Supprimer un pokemon de l'équipe pour en ajouter");
         return false; 
     }
-    for (let i = 0; i < teams.length; i++) {
-        if (teams[i].id === pokemon.id) {
-            alert("Ce pokemon est déjà dans l'équipe");
-            return false; 
-        }
-    }
     alert("Ce pokemon a été ajouté dans l'équipe");
     teams.push(pokemon);
     localStorage.setItem("team", JSON.stringify(teams));
@@ -34,6 +28,28 @@ export default class PokemonTeam {
     }
     return localStorage.setItem("team", JSON.stringify(teams));
   }
+
+  static existInTeam(pokemon) {
+    let teams = PokemonTeam.fetchTeam();
+    for (let i = 0; i < teams.length; i++) {
+      if (teams[i].id === pokemon.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static removeFromTeamByIndex(index) {
+    let teams = PokemonTeam.fetchTeam();
+    if (index >= 0 && index < teams.length) {
+        teams.splice(index, 1);
+        localStorage.setItem("team", JSON.stringify(teams));
+        console.log(`Pokémon à l'index ${index} supprimé`);
+    } else {
+        console.error("Index invalide :", index);
+    }
+  }
+
 
   static fetchPokemonbyId(id) {
     let teams = PokemonTeam.fetchTeam();
@@ -60,7 +76,7 @@ export default class PokemonTeam {
     let teams = PokemonTeam.fetchTeam();
 
     if (index >= 0 && index < teams.length) {
-        teams[index] = pokemon; // Mettre à jour le Pokémon à l'index donné
+        teams[index] = pokemon; 
         localStorage.setItem("team", JSON.stringify(teams));
         console.log(`Pokémon à l'index ${index} mis à jour :`, pokemon);
     } else {
