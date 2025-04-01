@@ -256,11 +256,11 @@ renderTeamView(pokemon, request) {
     const noteList = document.getElementById("note-list");
     const editNoteButton = document.getElementById("edit-note");
 
-  const teamList = document.getElementById("team-list");
+    const teamList = document.getElementById("team-list");
 
     
     const averageNote = await Notation.noteMoyenne(pokemonObject.id);
-    noteDisplay.textContent = averageNote ? averageNote.toFixed(2) : "Aucune note";
+    noteDisplay.textContent = averageNote ? `${averageNote.toFixed(2)}/10` : "Aucune note";
     
     const servicesNote = await Notation.fetchNotationById(pokemonObject.id);
     console.log("pokemonId", pokemonObject.id);
@@ -317,10 +317,10 @@ renderTeamView(pokemon, request) {
           button.id = deleteId;
           button.textContent = deleteText;
         } else {
-            removeAction(pokemonObject);
-            button.id = addId;
-            button.textContent = addText;
-            }
+          removeAction(pokemonObject);
+          button.id = addId;
+          button.textContent = addText;
+        }
       });
     };
 

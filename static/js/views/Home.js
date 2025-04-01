@@ -34,7 +34,7 @@ export default class Home {
                                 ${pokemon.type.map((t) => `<span class="type-${t}">${t}</span>`).join("")}
                             </div>
                             <p>${pokemon.description}</p>
-                            <p>Note : ${pokemon.note}</p>
+                            <p>Note : ${pokemon.note}/10</p>
                         </section>
                     </a>
                 </li> 

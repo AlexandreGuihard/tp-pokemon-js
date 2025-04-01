@@ -35,14 +35,8 @@ const router = async () => {
 
   console.log("Parsed URL:", parsedURL);
   let page = routes[parsedURL];
-
-  console.log("Page found:", page);
-  if (!page) {
-    console.error(`Route non trouvée : ${parsedURL}`);
-    page = new Error404();
-  } else {
-    page = new page();
-  }
+ 
+  page = page ? new page() : new Error404();
 
   content.innerHTML = await page.render();
   if (typeof page.afterRender === "function") {
