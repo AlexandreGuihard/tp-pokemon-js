@@ -1,0 +1,29 @@
+#sac-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .carousel {
+    display: flex;
+    overflow: hidden; /* Cache les éléments qui débordent */
+    scroll-behavior: smooth; /* Défilement fluide */
+    width: 80px; /* Largeur pour afficher un seul item */
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .carousel::-webkit-scrollbar {
+    display: none; /* Masque la barre de défilement */
+  }
+  
+  .carousel-item {
+    flex: 0 0 80px; /* Chaque item prend une largeur fixe */
+    text-align: center;
+  }
+  
+  .carousel-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }

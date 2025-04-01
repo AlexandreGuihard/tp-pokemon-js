@@ -1,18 +1,18 @@
-import { PokemonFavoris } from "../services/favoris.js";
+import PokemonTeam from "../services/team.js";
 
-export default class Favorites {
-
+export default class TeamView {
     async render() {
-
-        let favoris = PokemonFavoris.fetchFavoris()
+        let teams = PokemonTeam.fetchTeam();
+        console.log("test"); 
+        console.log(teams);
         let view = `
             <section class="section">
-                <h1>Pokemon Favoris</h1>
+                <h1>Équipe Pokemon</h1>
                 <ul class="personnage">
-                    ${favoris.map(pokemon => {
+                    ${teams.map((pokemon, index) => {
                         return `
                         <li> 
-                        <a href="#/personnages/${pokemon.id}">
+                        <a href="#/teams/${pokemon.id}/${index}">
                             <section class="container">
                                 <img src="${pokemon.image.sprite}" alt="image de ${pokemon.name.french}" />
                                 <h3>${pokemon.name.french}</h3>
@@ -22,6 +22,7 @@ export default class Favorites {
                         `;
                      }).join('')}
                 </ul>
+            </section>
         `;
         return view;
     }

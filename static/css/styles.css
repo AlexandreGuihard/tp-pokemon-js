@@ -1,82 +1,13 @@
-
 .section {
-    background-color: #f0f0f0;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-.section h1 {
-    font-size: 24px;
-    color: #333;
-    text-align: center;
-}
-  html {
-    background-color: #e7e5e8;
-  }
-
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color : red
-  }
-nav {
-  background-color: red;
-  padding: 30px;
-}
-
-nav ul {
-  list-style-type: none;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  text-align: center;
+  gap: 10px;
+  width: 80%;
 }
 
-nav li {
-  margin: 0 10px;
-}
-
-nav a {
-  color: #fff;
-  text-decoration: none;
-  margin: 10vw;
-}
-
-a{
-  color: #007bff;
-  text-decoration: none;
-}
-
-ul {
-  list-style-type: none;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #ffffff;
-  color: #646cff;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-
-#content {
-  background-color: white;
-  margin: 20px;
-  border-radius: 10px;
+section h3, section h4, section p {
+  margin: 10px 0;
 }

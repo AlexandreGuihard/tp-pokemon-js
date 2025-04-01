@@ -1,0 +1,49 @@
+/* body.css */
+html {
+    background-color: #e7e5e8;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color : red
+  }
+  
+  nav {
+    background-color: red;
+    padding: 20px; /* Ajustez la valeur si nécessaire */
+    display: flex;
+    justify-content: center;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+  }
+  
+  nav li {
+    margin: 0 10px;
+  }
+  
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px; 
+  }
+
+a{
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  ul {
+    list-style-type: none;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }

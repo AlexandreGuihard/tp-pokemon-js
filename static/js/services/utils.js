@@ -1,20 +1,23 @@
 const Utils = {
-    parseRequestURL: () => {
+  parseRequestURL: () => {
     let url = location.hash.slice(1).toLowerCase() || "/";
     let r = url.split("/");
+    console.log("[Router] Parsed URL:", r);
+
     let request = {
-      resource: null,
-      id: null,
-      verb: null,
+      resource: r[1] || null, 
+      type: r[1] === "items" ? r[2] || null : null, 
+      id: r[1] === "personnages" || r[1] === "teams" ? r[2] || null : null,
+      index: r[3] ? parseInt(r[3], 10) : null, 
+      verb: r[4] || null 
     };
-    request.resource = r[1];
-    request.id = r[2];
-    request.verb = r[3];
+
     return request;
   },
+
   sleep: (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
-  },
+  }
 };
 
 export default Utils;
