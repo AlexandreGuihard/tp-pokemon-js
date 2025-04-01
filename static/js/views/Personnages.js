@@ -11,11 +11,8 @@ export default class Personnages {
   
     let characters = await PokeProvider.fetchPaginatedCharacters(page, limit);
     console.log("characters", characters);
-  
-    let poks = [];
-    characters.data.forEach(pokemon => {
-      poks.push(new Pokemon(pokemon));
-    });
+
+    const poks = characters.data.map(pokemon => new Pokemon(pokemon));
   
     let view = `
        <section class="section">

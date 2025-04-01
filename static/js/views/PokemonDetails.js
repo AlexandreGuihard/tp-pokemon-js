@@ -263,10 +263,12 @@ renderTeamView(pokemon, request) {
     noteDisplay.textContent = averageNote ? averageNote.toFixed(2) : "Aucune note";
     
     const servicesNote = await Notation.fetchNotationById(pokemonObject.id);
+    console.log("pokemonId", pokemonObject.id);
     if (servicesNote && noteList) {
       noteList.innerHTML = '';
       servicesNote.forEach(note => {
         noteList.appendChild(this.createNoteElement(note));
+        console.log("note", note);
       });
     }
 
@@ -286,7 +288,6 @@ renderTeamView(pokemon, request) {
     });
 
     const buttonFavoris = document.querySelector(".buttonFavoris") || document.getElementById("addFavoris");
-    const buttonTeam = document.querySelector(".buttonTeam") || document.getElementById("addTeam");
 
     const updateButtonState = (button, condition, addText, deleteText, addId, deleteId) => {
       if (button) {
@@ -304,14 +305,6 @@ renderTeamView(pokemon, request) {
       "deleteFavoris"
     );
 
-    updateButtonState(
-      buttonTeam,
-      listePokemonsTeam.some(p => p.id === pokemonObject.id),
-      "Ajouter dans l'équipe",
-      "Ajouter dans l'équipe",
-      "addTeam",
-      "addTeam"
-    );
 
     const handleButtonClick = (button, addAction, removeAction, addId, deleteId, addText, deleteText, isTeam = false) => {
       button?.addEventListener("click", () => {

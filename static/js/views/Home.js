@@ -1,10 +1,10 @@
 import PokeProvider from "../services/PokeProvider.js";
 import Pokemon from "../services/Pokemon.js";
+import Notation from "../services/Notation.js";
 
 export default class Home {
-    
-    async render() {
-        return `
+  async render() {
+    return `
             <section class="section">
                 <h1>Bienvenue sur notre page</h1>
                 <p>Retrouvez ici tous les personnages de Pokemon, leurs techniques.</p>
@@ -17,50 +17,73 @@ export default class Home {
            
 
         `;
-    }
+  }
 
-    createPokemonCard(pokemon) {
-        const card = document.createElement("div");
-        card.classList.add("card");
-
-        card.innerHTML = `
-            <img src="${pokemon.image.hires}" alt="${pokemon.name.french}">
-            <h3>${pokemon.name.french}</h3>
-            <p>${pokemon.species}</p>
-            <div class="types">
-                ${pokemon.type.map(t => `<span class="type-${t}">${t}</span>`).join("")}
-            </div>
-            <p>${pokemon.description}</p>
+  createPokemonCard(pokemon) {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    console.log("pokemon", pokemon);
+    card.innerHTML = `
+            <ul class="personnage">      
+                <li> 
+                    <a href="#/personnages/${pokemon.id}">
+                        <section class="container">
+                            <img src="${pokemon.image.sprite}" alt="image de ${pokemon.name.french}" />
+                            <h3>${pokemon.name.french}</h3>
+                            <div class="types">
+                                ${pokemon.type.map((t) => `<span class="type-${t}">${t}</span>`).join("")}
+                            </div>
+                            <p>${pokemon.description}</p>
+                            <p>Note : ${pokemon.note}</p>
+                        </section>
+                    </a>
+                </li> 
+            </ul>
         `;
 
-        return card;
+    return card;
+  }
+
+  async afterRender() {
+    const pokedexContainer = document.getElementById("pokedex");
+    const searchInput = document.getElementById("search-input");
+
+    if (!pokedexContainer || !searchInput) return;
+    const notes = await Notation.fetchNotation();
+    const pokemonList = await PokeProvider.fetchCharacters();
+
+    const fetchNotedPokemons = async () => {
+      return pokemonList.filter((pokemon) => {
+        const note = notes.find((note) => note.idPokemon === pokemon.id);
+        return note && note.note > 0;
+      });
+    };
+
+    const notedPokemonList = await fetchNotedPokemons();
+
+    const notesMoyennes = [];
+    for (const pokemon of notedPokemonList) {
+      const note = await Notation.noteMoyenne(pokemon.id);
+      notesMoyennes.push({ ...pokemon, note });
     }
 
-    async afterRender() {
-        const pokedexContainer = document.getElementById("pokedex");
-        const searchInput = document.getElementById("search-input");
+    notesMoyennes.sort((a, b) => b.note - a.note);
 
-        if (!pokedexContainer || !searchInput) return;
 
-        const pokemonList = await PokeProvider.fetchCharacters();
+    const displayPokemons = (filter = "") => {
+      pokedexContainer.innerHTML = "";
+      const filteredList = notesMoyennes.filter((pokemon) =>
+        pokemon.name.french.toLowerCase().includes(filter.toLowerCase())
+      );
+      filteredList.forEach((data) => {
+        pokedexContainer.appendChild(this.createPokemonCard(data));
+      });
+    };
 
-       
-        const displayPokemons = (filter = "") => {
-            pokedexContainer.innerHTML = "";
-            const filteredList = pokemonList.filter(pokemon =>
-                pokemon.name.french.toLowerCase().includes(filter.toLowerCase())
-            );
-            filteredList.forEach((data) => {
-                const pokemon = new Pokemon(data);
-                pokedexContainer.appendChild(this.createPokemonCard(pokemon));
-            });
-        };
+    displayPokemons();
 
-        displayPokemons();
-
-        
-        searchInput.addEventListener("input", () => {
-            displayPokemons(searchInput.value);
-        });
-    }
+    searchInput.addEventListener("input", () => {
+      displayPokemons(searchInput.value);
+    });
+  }
 }

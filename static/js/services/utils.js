@@ -17,15 +17,7 @@ const Utils = {
 
   sleep: (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
-  },
-
-  replacehref: (url) => {
-    location.replace(url);
-  },
-
-  hashchange: (url) => {
-    location.hash = url;
-  },
+  }
 };
 
 export default Utils;

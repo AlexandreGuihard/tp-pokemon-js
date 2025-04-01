@@ -1,6 +1,20 @@
 import { ENDPOINT5 } from "../config.js";
 
 export default class Notation {
+
+
+    static fetchNotation = async () => {
+        try {
+            const rep = await fetch(ENDPOINT5);
+
+            if (!rep.ok) throw new Error('Erreur fetchNotation');
+            const data = await rep.json();
+            return data;
+        } catch (error) {
+            console.error('Erreur fetchNotation', error);
+            throw error;
+        }
+    }
     static fetchNotationById = async (id) => {
         try {
             const rep = await fetch(`${ENDPOINT5}?idPokemon=${id}`);
