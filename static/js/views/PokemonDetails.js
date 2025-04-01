@@ -498,7 +498,10 @@ renderTeamView(pokemon, request) {
 
       useItemButton?.addEventListener("click", () => {
         const { id, typeD ,nom } = sacItems[currentIndex];
-        
+        if(request.resource !== "teams" && nom === "Rare Candy"){
+          alert("Vous ne pouvez pas utiliser cet objet ici.");
+          return;
+        }
         this.handleObjet(typeD, nom, pokemonObject, request.index, allPokemons);
         Sac.removeObjet(id, 1);
         updateDisplaySac();
