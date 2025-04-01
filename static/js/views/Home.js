@@ -8,12 +8,13 @@ export default class Home {
             <section class="section">
                 <h1>Bienvenue sur notre page</h1>
                 <p>Retrouvez ici tous les personnages de Pokemon, leurs techniques.</p>
+                 <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Rechercher un Pokémon">
+            </div>
                 <div id="pokedex" class="pokedex-container"></div> 
             </section>
 
-            <div class="search-bar">
-                <input type="text" id="search-input" placeholder="Rechercher un Pokémon">
-            </div>
+           
 
         `;
     }
@@ -43,7 +44,7 @@ export default class Home {
 
         const pokemonList = await PokeProvider.fetchCharacters();
 
-        // Afficher tous les Pokémon
+       
         const displayPokemons = (filter = "") => {
             pokedexContainer.innerHTML = "";
             const filteredList = pokemonList.filter(pokemon =>
@@ -55,10 +56,9 @@ export default class Home {
             });
         };
 
-        // Affichage initial
         displayPokemons();
 
-        // Ajout de la recherche dynamique
+        
         searchInput.addEventListener("input", () => {
             displayPokemons(searchInput.value);
         });

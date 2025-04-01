@@ -6,14 +6,8 @@ export default class ItemsProvider {
         try {
             const rep = await fetch(ENDPOINT3);
             if (!rep.ok) throw new Error('Erreur fetchItems');
-            const data = await rep.text();
-            try {
-                const jsonData = JSON.parse(data);
-                return jsonData;
-            } catch {
-                console.error('Reponse JSON invalide:', data);
-                throw new Error('Reponse JSON invalide');
-            }
+            const data = await rep.json();
+            return data;
         } catch (error) {
             console.error('Erreur fetchItems', error);
             throw error;
@@ -24,14 +18,8 @@ export default class ItemsProvider {
         try {
             const rep = await fetch(`${ENDPOINT3}/${id}`)
             if(!rep.ok) throw new Error("Erreur fetchItemById")
-            const data = await rep.text();
-            try {
-                const jsonData = JSON.parse(data);
-                return jsonData;
-            } catch {
-                console.error("Reponse JSON invalide", data);
-                throw new Error("Reponse JSON invalide");
-            }
+            const data = await rep.json()
+            return data
         } catch (error) {
             console.error('Erreur fetchItemById', error);
             throw error;
@@ -42,9 +30,7 @@ export default class ItemsProvider {
         try {
             const rep = await fetch(ENDPOINT3);
             if (!rep.ok) throw new Error("Erreur fetchItemsGroupedByType");
-            const data = await rep.text();
-            try {
-                const jsonData = JSON.parse(data);
+                const jsonData = await rep.json();
                 const groupedItems = jsonData.reduce((acc, item) => {
                     const { type } = item;
                     if (!acc[type]) {
@@ -54,10 +40,6 @@ export default class ItemsProvider {
                     return acc;
                 }, {});
                 return groupedItems;
-            } catch {
-                console.error("Reponse JSON invalide", data);
-                throw new Error("Reponse JSON invalide");
-            }
         } catch (error) {
             console.error("Erreur fetchItemsGroupedByType", error);
             throw error;

@@ -3,6 +3,8 @@ import PokemonTeam from "../services/team.js";
 export default class TeamView {
     async render() {
         let teams = PokemonTeam.fetchTeam();
+        console.log("test"); 
+        console.log(teams);
         let view = `
             <section class="section">
                 <h1>Équipe Pokemon</h1>

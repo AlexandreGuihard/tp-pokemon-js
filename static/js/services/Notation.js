@@ -11,14 +11,8 @@ export default class Notation {
                 }
                 throw new Error("Erreur fetchNotationById");
             }
-            const data = await rep.text();
-            try {
-                const jsonData = JSON.parse(data);
-                return jsonData;
-            } catch {
-                console.error("Reponse JSON invalide", data);
-                throw new Error("Reponse JSON invalide");
-            }
+            const data = await rep.json();
+            return data;
         } catch (error) {
             console.error('Erreur fetchNotationById', error);
             throw error;

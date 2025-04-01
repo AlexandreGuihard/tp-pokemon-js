@@ -23,8 +23,8 @@ export default class PokemonDetail {
       }
     } else {
       try {
-        let character = await PokeProvider.fetchCharacterById(request.id);
-        return this.renderGlobalView(character);
+        let pokemon = await PokeProvider.fetchCharacterById(request.id);
+        return this.renderGlobalView(pokemon);
       } catch (error) {
         return this.renderNotFound("Pokemon", "Le Pokémon que vous cherchez n'existe pas");
       }
@@ -73,12 +73,12 @@ renderTeamView(pokemon, request) {
     `;
   }
 
-  renderGlobalView(character) {
+  renderGlobalView(pokemon) {
     return `
       <section class="section">
         <div id="top">
-          <h1 id="pokemon-name">${character.name.french}</h1>
-          <p id="id">#${character.id}</p>
+          <h1 id="pokemon-name">${pokemon.name.french}</h1>
+          <p id="id">#${pokemon.id}</p>
            <div id="sac-container">
           <button id="prev-item" class="carousel-button">◀</button>
           <div id="sac-items" class="carousel">
@@ -92,16 +92,16 @@ renderTeamView(pokemon, request) {
         </div>
 
         <div class="featured-img">
-          <a href="#/personnages/${parseInt(character.id) - 1}" class="arrow left-arrow" id="leftArrow">
+          <a href="#/personnages/${parseInt(pokemon.id) - 1}" class="arrow left-arrow" id="leftArrow">
             <img src="/img/chevron_left.svg" alt="back" />
           </a>
-          <img id="pokemon-image" src="${character.image.hires}" alt="Image de ${character.name.french}">
-          <a href="#/personnages/${parseInt(character.id) + 1}" class="arrow right-arrow" id="rightArrow">
+          <img id="pokemon-image" src="${pokemon.image.hires}" alt="Image de ${pokemon.name.french}">
+          <a href="#/personnages/${parseInt(pokemon.id) + 1}" class="arrow right-arrow" id="rightArrow">
             <img src="/img/chevron_right.svg" alt="forward"/>
           </a>
         </div>
 
-        ${this.renderCommonDetails(character)}
+        ${this.renderCommonDetails(pokemon)}
         ${this.renderNoteSection()}
         
         <button type="button" id="addPokemon">Ajouter un Pokemon</button>
@@ -243,8 +243,8 @@ renderTeamView(pokemon, request) {
       const teamPokemon = await PokemonTeam.fetchPokemonbyIndex(request.index);
       pokemonObject = new Pokemon(teamPokemon);
     } else {
-      const character = await PokeProvider.fetchCharacterById(request.id);
-      pokemonObject = new Pokemon(character);
+      const pokemon = await PokeProvider.fetchCharacterById(request.id);
+      pokemonObject = new Pokemon(pokemon);
     }
 
     const listePokemons = PokemonFavoris.fetchFavoris();
@@ -415,21 +415,35 @@ renderTeamView(pokemon, request) {
   
     
 
-    buttons.submitNoteChanges?.addEventListener("click", async () => {
-      const noteItems = document.querySelectorAll(".note-item input");
-      for (const input of noteItems) {
-        const noteId = input.dataset.noteId;
-        const newValue = parseFloat(input.value);
+          buttons.submitNoteChanges?.addEventListener("click", async () => {
+            const noteItems = document.querySelectorAll(".note-item input");
+            let isValid = true;
         
-        if (!this.validateNoteInput(newValue)) continue;
+            for (const input of noteItems) {
+                const noteId = input.dataset.noteId;
+                const newValue = parseFloat(input.value);
         
-        await Notation.updateNotation(noteId, { note: newValue });
-      }
-      
-      const updatedAverage = await Notation.noteMoyenne(pokemonObject.id);
-      noteDisplay.textContent = updatedAverage.toFixed(2);
-      toggleModal(modals.editNoteModal, false);
-    });
+                if (!this.validateNoteInput(newValue)) {
+                    isValid = false;
+                    alert(`La note pour l'ID ${noteId} doit être un nombre entre 0 et 10.`);
+                    break;
+                }
+            }
+
+            if (!isValid) return; 
+        
+            for (const input of noteItems) {
+                const noteId = input.dataset.noteId;
+                const newValue = parseFloat(input.value);
+        
+                await Notation.updateNotation(noteId, { note: newValue });
+            }
+        
+            const updatedAverage = await Notation.noteMoyenne(pokemonObject.id);
+            noteDisplay.textContent = updatedAverage.toFixed(2);
+        
+            toggleModal(modals.editNoteModal, false);
+        });
 
    
       const sacItemsContainer = document.getElementById("sac-items");

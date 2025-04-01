@@ -5,82 +5,104 @@ export default class Personnages {
 
 
 
-async render() {
-  let page = parseInt(localStorage.getItem("currentPage")) || 1;
-  let limit = 10;
-
-  let characters = await PokeProvider.fetchPaginatedCharacters(page, limit);
-  let poks = [];
-  characters.data.forEach(element => {
-    poks.push(new Pokemon(element));
-  });
-
-  let view = `
-     <section class="section">
-      <h1>Pokedex</h1>
-      <input type="text" id="searchInput" placeholder="Rechercher un Pokémon" />
-      <ul class="personnage">
-        ${poks
-          .map((character) => `
-        <li class="pokemon-item">
-          <p id="pokeId">${character.id}<p>
-          <a href="#/personnages/${character.id}">
-          <img src="${character.image.thumbnail}" alt="Image de ${character.name.french}">
-          <div id='pokeName'>
-            <h2>${character.name.french}</h2>
-          </div>
-        </li> 
-        `)
-          .join("")}
-      </ul>
-      <div class="pagination">
-          <button id="prevPage" type="button" ${page === 1 ? "disabled" : ""}>Précédent</button>
-          <button id="nextPage" type="button">Suivant</button>
-      </div>
-     </section>
-  `;
-  return view;
-}
-
-async renderRecherche(recherche) {
-  let page = parseInt(localStorage.getItem("currentSearchPage")) || 1;
-  let limit = 10;
-
-  const characters = await PokeProvider.fetchPaginedPokemonRecherche(recherche, page, limit);
-
-  let poks = [];
-  characters.data.forEach(element => {
-    poks.push(new Pokemon(element));
-  });
-
-  let view = `
-      <section class="section">
+  async render() {
+    let page = parseInt(localStorage.getItem("currentPage")) || 1;
+    let limit = 10;
+  
+    let characters = await PokeProvider.fetchPaginatedCharacters(page, limit);
+    console.log("characters", characters);
+  
+    let poks = [];
+    characters.data.forEach(pokemon => {
+      poks.push(new Pokemon(pokemon));
+    });
+  
+    let view = `
+       <section class="section">
+        <h1>Pokedex</h1>
+        <input type="text" id="searchInput" placeholder="Rechercher un Pokémon" />
+        <ul class="personnage">
+          ${poks
+            .map((character) => `
+          <li class="pokemon-item">
+            <p id="pokeId">${character.id}<p>
+            <a href="#/personnages/${character.id}">
+            <img src="${character.image.thumbnail}" alt="Image de ${character.name.french}">
+            <div id='pokeName'>
+              <h2>${character.name.french}</h2>
+            </div>
+          </li> 
+          `)
+            .join("")}
+        </ul>
+        <div class="pagination">
+            <button id="prevPage" type="button" ${characters.prev === null ? "disabled" : ""}>Précédent</button>
+            <button id="nextPage" type="button" ${characters.next === null ? "disabled" : ""}>Suivant</button>
+        </div>
+       </section>
+    `;
+    return view;
+  }
+  async renderRecherche(recherche) {
+    if (!recherche || typeof recherche !== "string" || recherche.trim() === "") {
+      throw new Error("Le paramètre 'recherche' doit être une chaîne non vide.");
+    }
+  
+    let page = parseInt(localStorage.getItem("currentSearchPage")) || 1;
+    let limit = 10;
+  
+    try {
+      const characters = await PokeProvider.fetchPaginedPokemonRecherche(recherche, page, limit);
+  
+      if (characters.total === 0) {
+        return `
+          <section class="section">
+            <h1>Pokedex</h1>
+            <input type="text" id="searchInput" placeholder="Rechercher un Pokémon" value="${recherche}" />
+            <p>Aucun résultat trouvé pour : "${recherche}"</p>
+          </section>
+        `;
+      }
+  
+      const poks = characters.data.map(pokemon => new Pokemon(pokemon));
+  
+      let view = `
+        <section class="section">
+            <h1>Pokedex</h1>
+            <input type="text" id="searchInput" placeholder="Rechercher un Pokémon" value="${recherche}" />
+            <p>Recherche pour : "${recherche}"</p>
+            <p>${characters.total} résultat(s) trouvé(s)</p>
+            <ul class="personnage">
+                ${poks
+                  .map((character) => `
+                    <li class="pokemon-item">
+                        <p id="pokeId">${character.id}</p>
+                        <a href="#/personnages/${character.id}">
+                        <img src="${character.image.thumbnail}" alt="Image de ${character.name.french}">
+                        <div id='pokeName'>
+                            <h2>${character.name.french}</h2>
+                        </div>
+                    </li> 
+                  `)
+                  .join("")}
+            </ul>
+            <div class="pagination">
+                <button id="prevPageRecherche" type="button" ${!characters.hasPrevPage ? "disabled" : ""}>Précédent</button>
+                <button id="nextPageRecherche" type="button" ${!characters.hasNextPage ? "disabled" : ""}>Suivant</button>
+            </div>
+        </section>
+      `;
+      return view;
+    } catch (error) {
+      console.error("Erreur lors de la recherche :", error);
+      return `
+        <section class="section">
           <h1>Pokedex</h1>
-          <input type="text" id="searchInput" placeholder="Rechercher un Pokémon" value="${recherche}" />
-          <p>Recherche pour : ${recherche}</p>
-          <p>${characters.total} résultat(s) trouvé(s)</p>
-          <ul class="personnage">
-              ${poks
-                .map((character) => `
-                  <li class="pokemon-item">
-                      <p id="pokeId">${character.id}<p>
-                      <a href="#/personnages/${character.id}">
-                      <img src="${character.image.thumbnail}" alt="Image de ${character.name.french}">
-                      <div id='pokeName'>
-                          <h2>${character.name.french}</h2>
-                      </div>
-                  </li> 
-                `)
-                .join("")}
-          </ul>
-          <div class="pagination">
-              <button id="prevPageRecherche" type="button" ${page === 1 ? "disabled" : ""}>Précédent</button>
-              <button id="nextPageRecherche" type="button" ${page * limit >= characters.total ? "disabled" : ""}>Suivant</button>
-          </div>
-      </section>
-  `;
-  return view;
-}
+          <p>Une erreur est survenue lors de la recherche. Veuillez réessayer plus tard.</p>
+        </section>
+      `;
+    }
+  }
 
 
     

@@ -57,6 +57,9 @@ export default class ItemsTypeView {
     async afterRender() {
         let request = Utils.parseRequestURL(); 
         let id = request.index; 
+        if (!id) {
+            return;
+        }
         let serviceItem = await ItemsProvider.fetchItemById(id); 
         let itemDetailContent = document.getElementById("item-detail-content");
         console.log("serviceItem", serviceItem);
